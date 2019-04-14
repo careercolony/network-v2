@@ -20,12 +20,15 @@ object ConnectionDao {
   implicit def contactStatusHandler = Macros.handler[ContactInfo]
 
 
-  implicit def userEducationHandler = Macros.handler[Education]
+  implicit def educationHandler = Macros.handler[Education]
 
   implicit def registerHandler = Macros.handler[RegisterDto]
 
   implicit def experienceHandler = Macros.handler[Experience]
 
+  implicit def userExperienceHandler = Macros.handler[userExperience]
+
+  implicit def userEducationHandler = Macros.handler[userEducation]
 
   implicit def userWriter = Macros.handler[DBRegisterDto]
 

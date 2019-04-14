@@ -32,15 +32,25 @@ case class User(memberID: String, firstname: String, lastname: String, email: St
 case class responseMessage(uid: String, errmsg: String , successmsg : String)
 
 
-case class DBRegisterDto(var _id : String , avatar: String,
-                         registerDto :RegisterDto,
-                         experience : Option[Experience] , /*experience collection*/
-                         education: Option[Education] , /*education collection*/
-                         Interest : Option[List[String]] ,   /*interest details*/
-                         userIP : Option[String] ,country : Option[String] ,interest_on_colony : Option[String] , employmentStatus : Option[String]  /*extra fields from second step page*/
-                         ,user_agent : Option[String],interest_flag: Option[Boolean]= Some(false), secondSignup_flag : Option[Boolean]= Some(false), email_verification_flag : Option[Boolean]= Some(false), /*user prfile flags*/
+case class userExperience(position: Option[String], career_level: Option[String], description: Option[String], employer: Option[String], start_month: Option[String],
+                          start_year: Option[String], end_month: Option[String], end_year: Option[String], current: Option[Boolean],
+                          industry: Option[String])
+
+
+
+case class userEducation(school_name: Option[String], field_of_study: Option[String], degree: Option[String],
+                         start_year: Option[String], end_year: Option[String], activities: Option[String])
+
+
+case class DBRegisterDto(var _id: String, status : String ,avatar: String, created_date: Option[String], updated_date: Option[String],
+                         registerDto: RegisterDto,
+                         experience: Option[userExperience], /*experience collection*/
+                         education: Option[userEducation], /*education collection*/
+                         Interest: Option[List[String]], /*interest details*/
+                         userIP: Option[String], country: Option[String], interest_on_colony: Option[String], employmentStatus: Option[String] ,interest: Option[List[String]]/*extra fields from second step page*/
+                         , secondSignup_flag: Option[Boolean] = Some(false), email_verification_flag: Option[Boolean] = Some(false),connections_flag : Option[Boolean]= Some(false) , /*user prfile flags*/
                          lastLogin: Long = 0, loginCount: Int = 0, sessionsStatus: List[SessionStatus] = List(), dateline: Long = System.currentTimeMillis()
-                        ) /*default value*/
+                        )/*default value*/
 
 
 case class RegisterDto(email: String, nickname: String, password: String, repassword: String,
