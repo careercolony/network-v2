@@ -34,7 +34,7 @@ object ConnectionDao {
 
   def getUserDetailsByID(memberID: String): Future[Option[DBRegisterDto]] = {
     search[DBRegisterDto](userCollection,
-      document("_id" -> memberID, "registerDto.status" -> active))
+      document("_id" -> memberID, "status" -> active))
   }
 
 
