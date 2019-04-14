@@ -90,12 +90,20 @@
 [0m[[0mdebug[0m] [0m	/Users/carlnjoku/.ivy2/cache/org.json4s/json4s-jackson_2.11/jars/json4s-jackson_2.11-3.2.10.jar[0m
 [0m[[0mdebug[0m] [0m	/Users/carlnjoku/.ivy2/cache/org.scalaj/scalaj-http_2.11/jars/scalaj-http_2.11-2.3.0.jar[0m
 [0m[[0mdebug[0m] [0m	/Users/carlnjoku/.ivy2/cache/org.neo4j.driver/neo4j-java-driver/jars/neo4j-java-driver-1.0.4.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/carlnjoku/.ivy2/cache/com.typesafe.akka/akka-stream-kafka_2.11/jars/akka-stream-kafka_2.11-0.11-M2.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/carlnjoku/.ivy2/cache/org.apache.kafka/kafka-clients/jars/kafka-clients-0.9.0.1.jar[0m
+[0m[[0mdebug[0m] [0m	/Users/carlnjoku/.ivy2/cache/org.xerial.snappy/snappy-java/bundles/snappy-java-1.1.1.7.jar[0m
 [0m[[0mdebug[0m] [0mWaiting for thread run-main-0 to terminate.[0m
 [0m[[0mdebug[0m] [0m	Thread run-main-0 exited.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread New I/O worker #3 to terminate.[0m
-[0m[[0mdebug[0m] [0m	Thread pool-8-thread-3 exited.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread users-cluster-scheduler-1 to terminate.[0m
-[0m[[0mdebug[0m] [0m	Thread users-cluster-scheduler-1 exited.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread users-cluster-akka.actor.default-dispatcher-22 to terminate.[0m
-[0m[[0mdebug[0m] [0m	Thread users-cluster-akka.actor.default-dispatcher-22 exited.[0m
-[0m[[0mdebug[0m] [0mWaiting for thread pool-11-thread-3 to terminate.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread reactivemongo-akka.actor.default-dispatcher-3 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread reactivemongo-akka.actor.default-dispatcher-3 exited.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread New I/O worker #1 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread users-cluster-6 exited.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread New I/O server boss #6 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread users-cluster-12 exited.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread users-cluster-akka.actor.default-dispatcher-17 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread users-cluster-akka.actor.default-dispatcher-17 exited.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread users-cluster-akka.actor.default-dispatcher-3 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread users-cluster-akka.actor.default-dispatcher-3 exited.[0m
+[0m[[0mdebug[0m] [0mWaiting for thread users-cluster-akka.actor.default-dispatcher-19 to terminate.[0m
+[0m[[0mdebug[0m] [0m	Thread users-cluster-akka.actor.default-dispatcher-19 exited.[0m

@@ -42,6 +42,7 @@ object Neo4jConnector {
         session.run(script)
       }
     } yield {
+      println("relationship count"+result.consume().counters().relationshipsCreated() )
       session.close()
       result.consume().counters().relationshipsCreated() + result.consume().counters().relationshipsDeleted() + result.consume().counters().nodesCreated() +  result.consume().counters().propertiesSet()
 

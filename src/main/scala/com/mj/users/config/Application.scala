@@ -14,7 +14,7 @@ object Application {
   val akkaPort: Int = configServer.getString("akkaPort").toInt
   val seedNodes: String = configServer.getString("seedNodes")
   val poolSize: Int = config.getInt("poolSize")
-  val version = config.getString("profileVersion")
+  val version = config.getString("networkVersion")
   val configMongo: Config = config.getConfig("mongodb")
   val configMongoDbname: String = configMongo.getString("dbname")
   var configMongoUri: String = configMongo.getString("uri")
@@ -29,6 +29,10 @@ object Application {
 
   val kongAdminURL = config.getString("kong.admin.url")
   val kongExpirationTime = config.getInt("kong.expiration.time")
+
+  // Kafka topics
+  val inviteTopic: String = config.getString("kafka.inviteTopic")
+  val brokers: String = config.getString("kafka.brokers")
 
   //Mongo configuration
   val dbName = configMongoDbname

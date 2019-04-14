@@ -40,7 +40,7 @@ object Server extends App {
   val followInvitationProcessor = system.actorOf(RoundRobinPool(poolSize).props(Props[processor.follow.FollowInvitationProcessor]), "followInvitationProcessor")
   val unFollowInvitationProcessor = system.actorOf(RoundRobinPool(poolSize).props(Props[processor.follow.UnFollowInvitationProcessor]), "UnFollowInvitationProcessor")
   val searchPeopleProcessor = system.actorOf(RoundRobinPool(poolSize).props(Props[processor.recommendation.SearchPeopleProcessor]), "searchPeopleProcessor")
-
+  val myFriendsProcessor = system.actorOf(RoundRobinPool(poolSize).props(Props[processor.connection.MyFriendsProcessor]), "myFriendsProcessor")
   import system.dispatcher
 
   Http().bindAndHandle(RouteUtils.logRoute, "0.0.0.0", port)
