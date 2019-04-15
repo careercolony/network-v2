@@ -18,7 +18,7 @@ object ConnectionDao {
   implicit def locationHandler = Macros.handler[Location]
 
   implicit def contactStatusHandler = Macros.handler[ContactInfo]
-  
+
   implicit def educationHandler = Macros.handler[Education]
 
   implicit def registerHandler = Macros.handler[RegisterDto]
@@ -39,6 +39,34 @@ object ConnectionDao {
       document("_id" -> memberID, "status" -> active))
   }
 
+
+  def updateInvitationConnections(conn: Connections) = {
+
+
+    val result = for {
+      userDetails <- getUserDetailsByID(conn.memberID)
+      val inviteeDto = userDetails.get.registerDto.connections.get.find(invite_id => invite_id.memberID.equals(conn.inviteeID))
+      val existingInviteeDto = inviteeDto match {
+
+        case Some(existingDto) => existingDto.copy(status = conn.status)
+        case None => connectionsDto(conn.inviteeID, conn.conn_type, conn.status)
+
+      }
+      val allDto = userDetails.get.registerDto.connections.getOrElse(List()).filter(invite_id => (invite_id.memberID != conn.inviteeID))
+      val connectionDto = allDto :+ existingInviteeDto
+      val userDto = userDetails.get.copy(registerDto = userDetails.get.registerDto.copy(connections = Some(connectionDto)))
+      response <- updateDetails[DBRegisterDto](userCollection, {
+        BSONDocument("_id" -> conn.memberID, "status" -> active)
+      }, userDto)
+
+    } yield (userDto)
+
+    result.recover {
+      case e: Throwable => {
+        throw new Exception("Error while updating record in the data store.")
+      }
+    }
+  }
 
   def updateUserConnections(conn: Connections) = {
 

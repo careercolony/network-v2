@@ -23,6 +23,7 @@ case class Education(eduID: String,  status : String , memberID: String, school_
 //friends
 case class Friend(memberID : String , inviteeID : String , firstName : String , conn_type : Option[String])
 
+case class ConnInvitation(memberID: String, firstname: String, lastname: String, email: String , inviteeEmail : String)
 //connections
 case class Connections(memberID : String , inviteeID : String ,conn_type : String , status : String )
 
@@ -72,4 +73,6 @@ object JsonRepo extends DefaultJsonProtocol with SprayJsonSupport {
 
   implicit val UserDtoFormats: RootJsonFormat[User] = jsonFormat6(User)
   implicit val errorMessageDtoFormats: RootJsonFormat[responseMessage] = jsonFormat3(responseMessage)
+  implicit val connInvitationFormats: RootJsonFormat[ConnInvitation] = jsonFormat5(ConnInvitation)
+
 }
