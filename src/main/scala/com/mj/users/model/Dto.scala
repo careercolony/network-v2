@@ -23,7 +23,7 @@ case class Education(eduID: String,  status : String , memberID: String, school_
 //friends
 case class Friend(memberID : String , inviteeID : String , firstName : String , conn_type : Option[String])
 
-case class ConnInvitation(memberID: String, firstname: String, lastname: String, email: String , inviteeEmail : String)
+
 //connections
 case class Connections(memberID : String , inviteeID : String ,conn_type : String , status : String )
 
@@ -69,10 +69,13 @@ case class Location(city: Option[String], state:Option[String], country: Option[
 
 case class ContactInfo(address: String, city: String, state: String, country: String, email:Option[String], mobile_phone: Option[String], birth_day:Option[Int], birth_month:Option[Int], birth_year:Option[Int], twitter_profile:Option[String], facebook_profile:Option[String])
 
+//case class ConnInvitation(memberID: String, firstname: String, lastname: String, email: String , inviteeEmail : String)
+case class ConnInvitation(memberID: String, firstname: String, lastname: String, email: String , avatar: String, position : Option[String], employer : Option[String], state:Option[String], country:Option[String], inviteeEmail : String, inviteeName: String)
+
 object JsonRepo extends DefaultJsonProtocol with SprayJsonSupport {
 
   implicit val UserDtoFormats: RootJsonFormat[User] = jsonFormat6(User)
   implicit val errorMessageDtoFormats: RootJsonFormat[responseMessage] = jsonFormat3(responseMessage)
-  implicit val connInvitationFormats: RootJsonFormat[ConnInvitation] = jsonFormat5(ConnInvitation)
+  implicit val connInvitationFormats: RootJsonFormat[ConnInvitation] = jsonFormat11(ConnInvitation)
 
 }
