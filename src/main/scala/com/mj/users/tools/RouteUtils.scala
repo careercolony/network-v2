@@ -13,7 +13,7 @@ import com.mj.users.config.Application._
 import scala.concurrent.{ExecutionContext, Future}
 
 object RouteUtils extends AcceptInvitationRoute with DeclineInvitationRoute with FollowInvitationRoute with UnFollowInvitationRoute with SearchPeopleRoute
-with InvitationRoute with MyFriendsRoute {
+with InvitationRoute with MyFriendsRoute with MultipleInvitationRoute{
 
   /*  createUsersCollection()
     createOnlinesCollection()*/
@@ -80,7 +80,7 @@ with InvitationRoute with MyFriendsRoute {
   def routeLogic(implicit ec: ExecutionContext,
                  system: ActorSystem,
                  materializer: ActorMaterializer) = {
-      invitation(system) ~ Acceptinvitation(system) ~ DeclineInvitation(system) ~ searchPeople(system) ~ myFriends(system) ~ followInvitation(system) ~ UnFollowInvitation(system)
+      invitation(system) ~ Acceptinvitation(system) ~ DeclineInvitation(system) ~ searchPeople(system) ~ myFriends(system) ~ followInvitation(system) ~ UnFollowInvitation(system) ~ multiInvitation(system)
   }
 
   def logRoute(implicit ec: ExecutionContext,
