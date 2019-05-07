@@ -7,7 +7,7 @@ import akka.util.Timeout
 import com.mj.users.config.MessageConfig
 import com.mj.users.model.{Connections, Friend, responseMessage}
 import com.mj.users.mongo.Neo4jConnector.updateNeo4j
-import com.mj.users.mongo.ConnectionDao.updateUserConnections
+import com.mj.users.mongo.ConnectionDao.{updateUserConnections}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class AcceptInvitationProcessor extends Actor with MessageConfig {
@@ -26,7 +26,10 @@ class AcceptInvitationProcessor extends Actor with MessageConfig {
           case count if count > 0 =>
             updateUserConnections(Connections(invitationFriend.memberID,invitationFriend.inviteeID,invitationFriend.conn_type.get,"active")).flatMap(resp =>
              {
-               updateUserConnections(Connections(invitationFriend.inviteeID,invitationFriend.memberID,invitationFriend.conn_type.get,"active"))}
+               updateUserConnections(Connections(invitationFriend.inviteeID,invitationFriend.memberID,invitationFriend.conn_type.get,"active"))
+               //updateUserCounts(Counts(invitationFriend.memberID,invitationFriend.memberID, ""))
+               //updateUserCounts(Counts(invitationFriend.inviteeID,invitationFriend.memberID, ""))
+               }
           ).map(resp =>
             origin ! responseMessage("", "", s"You are now connected with ${invitationFriend.firstName}"))
           case 0 => origin ! responseMessage("", s"Error found for : ${invitationFriend.firstName}", "")

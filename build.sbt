@@ -2,10 +2,10 @@ enablePlugins(JavaAppPackaging)
 enablePlugins(DockerPlugin)
 enablePlugins(AshScriptPlugin)
 
-packageName in Docker := "careercolony/akka-http-docker-profile-api"
+packageName in Docker := "careercolony/akka-http-docker-network-api"
 dockerBaseImage := "openjdk:jre-alpine"
 
-name := "Profile"
+name := "Network"
 
 version := "0.0.1"
 

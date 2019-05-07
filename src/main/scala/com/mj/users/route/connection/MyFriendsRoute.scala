@@ -10,7 +10,7 @@ import akka.http.scaladsl.server.Route
 import akka.pattern.ask
 import akka.util.Timeout
 import com.mj.users.model.JsonRepo._
-import com.mj.users.model.{Friend, User, responseMessage}
+import com.mj.users.model.{Friend, User, MyContacts, responseMessage}
 import org.slf4j.LoggerFactory
 import spray.json._
 
@@ -35,7 +35,7 @@ trait MyFriendsRoute {
           case Success(resp) =>
             println("resp"+resp.getClass)
             resp match {
-              case s: List[User] =>
+              case s: List[MyContacts] =>
                 complete(HttpResponse(entity = HttpEntity(MediaTypes.`application/json`, s.toJson.toString)))
               case _ => complete(HttpResponse(status = BadRequest, entity = HttpEntity(MediaTypes.`application/json`, responseMessage("", resp.toString, "").toJson.toString)))
             }

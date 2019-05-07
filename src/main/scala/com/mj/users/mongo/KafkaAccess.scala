@@ -22,22 +22,4 @@ trait KafkaAccess {
     producer.close()
   }
 
-
-  /*
-  def sendAccepedToKafka(accepted: String , topic : String): Unit = {
-    import java.util.Properties
-
-    val props = new Properties()
-    props.put("bootstrap.servers", brokers)
-
-    props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-    props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-
-    val producer: KafkaProducer[String, String] = new KafkaProducer[String, String](props)
-    val record: ProducerRecord[String, String] = new ProducerRecord[String, String](topic, accepted)
-    producer.send(record)
-    producer.close()
-  }
-  */
-
 }

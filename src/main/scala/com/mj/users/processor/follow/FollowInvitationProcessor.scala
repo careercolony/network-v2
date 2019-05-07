@@ -20,7 +20,7 @@ class FollowInvitationProcessor extends Actor with MessageConfig {
 
     case (followInvitationFriend: Friend) => {
       val origin = sender()
-      val script = s"MATCH (a:users {memberID:'${followInvitationFriend.memberID}'} ), (b:users {memberID:'${followInvitationFriend.inviteeID}'} ) CREATE (a)-[r:FOLLOW {status:'active'}]->(b)"
+      val script = s"MATCH (a:users {memberID:'${followInvitationFriend.memberID}'} ), (b:users {memberID:'${followInvitationFriend.inviteeID}'} ) MERGE (a)-[r:FOLLOW {status:'active'}]->(b)"
 
       val result = updateNeo4j(script).map(response =>
         response match {

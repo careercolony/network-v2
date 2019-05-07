@@ -96,6 +96,14 @@ object ConnectionDao {
     }
   }
 
+  
+  /**
+  def updateUserCounts(count: Counts) = {
+
+    
+  }
+  */
+
   /*def insertUserConnections(conn: Connections): Future[String] = {
 
     for {

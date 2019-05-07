@@ -26,9 +26,11 @@ case class Friend(memberID : String , inviteeID : String , firstName : String , 
 
 //connections
 case class Connections(memberID : String , inviteeID : String ,conn_type : String , status : String )
+case class Counts(memberID : String , inviteeID : String, contacts : String)
 
 case class User(memberID: String, firstname: String, lastname: String, email: String, avatar: String, degree:Int)
 
+case class MyContacts(memberID: String, firstname: String, lastname: String, email: String, avatar: String)
 //Response format for all apis
 case class responseMessage(uid: String, errmsg: String , successmsg : String)
 
@@ -75,7 +77,12 @@ case class ConnInvitation(memberID: String, firstname: String, lastname: String,
 object JsonRepo extends DefaultJsonProtocol with SprayJsonSupport {
 
   implicit val UserDtoFormats: RootJsonFormat[User] = jsonFormat6(User)
+  implicit val myContactsDtoFormats: RootJsonFormat[MyContacts] = jsonFormat5(MyContacts)
+  
   implicit val errorMessageDtoFormats: RootJsonFormat[responseMessage] = jsonFormat3(responseMessage)
   implicit val connInvitationFormats: RootJsonFormat[ConnInvitation] = jsonFormat11(ConnInvitation)
+  implicit val friendFormats: RootJsonFormat[Friend] = jsonFormat4(Friend)
+  implicit val countFormats: RootJsonFormat[Counts] = jsonFormat3(Counts)
+  
 
 }
