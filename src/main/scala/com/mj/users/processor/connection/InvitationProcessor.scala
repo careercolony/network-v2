@@ -25,16 +25,14 @@ class InvitationProcessor extends Actor with MessageConfig {
         case None => ""
         case Some(str) => str
       }
-      //val conn_type  = if (invitationFriend.conn_type.isDefined) invitationFriend.conn_type.get else "works"
-      //val script = s"MATCH (a:users {memberID:'${invitationFriend.memberID}'} ), (b:users {memberID:'${invitationFriend.inviteeID}'} ) CREATE (a)-[r:FRIEND {status:'pending', conn_type:'${conn_typeVal}'}]->(b)"
-
-
+      
       val script = s"MATCH (a:users {memberID:'${invitationFriend.memberID}'} ), (b:users {memberID:'${invitationFriend.inviteeID}'} ) MERGE (a)-[r:FRIEND {status:'pending', conn_type:'${conn_typeVal}'}]->(b)"
       val result = updateNeo4j(script).map(response => response match {
         case count if count > 0 => {
           val result = getUserDetailsByID(invitationFriend.inviteeID).map(
             inviteeDetails => {
-              updateInvitationConnections(Connections(invitationFriend.memberID, invitationFriend.inviteeID, invitationFriend.conn_type.get, "pending")).map(
+             println(conn_typeVal)
+              updateInvitationConnections(Connections(invitationFriend.memberID, invitationFriend.inviteeID, conn_typeVal, "pending")).map(
                 resp => {
                   origin ! ConnInvitation(resp._id, resp.registerDto.firstname,resp.registerDto.lastname,resp.registerDto.email,resp.avatar, resp.experience.get.position, resp.experience.get.employer, resp.registerDto.location.get.state, resp.registerDto.location.get.country, inviteeDetails.get.registerDto.email, inviteeDetails.get.registerDto.firstname)/*responseMessage("", "", s"Connection request was successfully sent to ${invitationFriend.firstName}")*/
                 })

@@ -24,8 +24,11 @@ case class Education(eduID: String,  status : String , memberID: String, school_
 case class Friend(memberID : String , inviteeID : String , firstName : String , conn_type : Option[String])
 
 
+
 //connections
 case class Connections(memberID : String , inviteeID : String ,conn_type : String , status : String )
+case class ConnnectionMultiple(inviteeID : String ,conn_type : String , status : String )
+case class FriendMultiple(memberID : String , connections: List[ConnnectionMultiple])
 case class Counts(memberID : String , inviteeID : String, contacts : String)
 
 case class User(memberID: String, firstname: String, lastname: String, email: String, avatar: String, degree:Int)
@@ -53,9 +56,8 @@ case class DBRegisterDto(var _id: String, status : String ,avatar: String, creat
                          userIP: Option[String], country: Option[String], interest_on_colony: Option[String], employmentStatus: Option[String] ,interest: Option[List[String]]/*extra fields from second step page*/
                          , secondSignup_flag: Option[Boolean] = Some(false), email_verification_flag: Option[Boolean] = Some(false),connections_flag : Option[Boolean]= Some(false) , /*user prfile flags*/
                          lastLogin: Long = 0, loginCount: Int = 0, sessionsStatus: List[SessionStatus] = List(), dateline: Long = System.currentTimeMillis()
-                        )/*default value*/
-
-
+                        )
+                        
 case class RegisterDto(email: String, nickname: String, password: String, repassword: String,
                        gender: Int, firstname: String, lastname: String, contact_info: Option[ContactInfo],
                        location:Option[Location], connections: Option[List[connectionsDto]],
@@ -63,7 +65,7 @@ case class RegisterDto(email: String, nickname: String, password: String, repass
                        friends_with_post:Option[List[String]],
                        user_agent : Option[String])
 
-case class connectionsDto (memberID : String , conn_type : String , status : String )
+case class connectionsDto (inviteeID : String , conn_type : String , status : String )
 
 case class SessionStatus(sessionid: String, newCount: Int)
 
@@ -83,6 +85,8 @@ object JsonRepo extends DefaultJsonProtocol with SprayJsonSupport {
   implicit val connInvitationFormats: RootJsonFormat[ConnInvitation] = jsonFormat11(ConnInvitation)
   implicit val friendFormats: RootJsonFormat[Friend] = jsonFormat4(Friend)
   implicit val countFormats: RootJsonFormat[Counts] = jsonFormat3(Counts)
+  implicit val connMultipleFormats: RootJsonFormat[ConnnectionMultiple] = jsonFormat3(ConnnectionMultiple)
+  implicit val friendMultipleFormats: RootJsonFormat[FriendMultiple] = jsonFormat2(FriendMultiple)
   
 
 }

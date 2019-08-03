@@ -9,7 +9,7 @@ import akka.http.scaladsl.server.Directives.{complete, path, _}
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import com.mj.users.model.JsonRepo._
-import com.mj.users.model.{ConnInvitation, Friend, responseMessage}
+import com.mj.users.model.{ConnInvitation, Friend, FriendMultiple, responseMessage}
 import org.slf4j.LoggerFactory
 import spray.json._
 
@@ -27,7 +27,28 @@ trait MultipleInvitationRoute extends KafkaAccess {
     val multipleInvitationProcessor = system.actorSelection("/*/multipleInvitationProcessor")
     implicit val timeout = Timeout(20, TimeUnit.SECONDS)
 
+    path("multi-invite") {
+      post {
+        entity(as[FriendMultiple]) { dto =>
+          val updateResponse = multipleInvitationProcessor ? dto
+          onComplete(updateResponse) {
+            case Success(resp) =>
+              resp match {
+                case s: responseMessage  => if (s.successmsg.nonEmpty)
+                  complete(HttpResponse(entity = HttpEntity(MediaTypes.`application/json`, s.toJson.toString)))
+                else
+                  complete(HttpResponse(status = BadRequest, entity = HttpEntity(MediaTypes.`application/json`, s.toJson.toString)))
+                case _ => complete(HttpResponse(status = BadRequest, entity = HttpEntity(MediaTypes.`application/json`, responseMessage("", resp.toString, "").toJson.toString)))
+              }
+            case Failure(error) =>
+              multipleInvitationUserLog.error("Error is: " + error.getMessage)
+              complete(HttpResponse(status = BadRequest, entity = HttpEntity(MediaTypes.`application/json`, responseMessage("", error.getMessage, "").toJson.toString)))
+          }
+        }
+      }
+    }
 
+  /**
     path("multi-invite" / "memberID" / Segment / "inviteeID" / Segment / "firstname" / Segment / "conn_type" / Segment) { (memberID: String, inviteeID: String, firstname: String, conn_type: String) =>
       get {
 
@@ -51,7 +72,9 @@ trait MultipleInvitationRoute extends KafkaAccess {
       }
 
     }
+    */
   }
+  
 }
 
 /**

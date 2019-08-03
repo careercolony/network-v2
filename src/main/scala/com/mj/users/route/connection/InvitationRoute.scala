@@ -37,7 +37,7 @@ trait InvitationRoute extends KafkaAccess {
             resp match {
               case s: ConnInvitation =>
                 sendToKafka(s.toJson.toString, inviteTopic)
-                val resp = responseMessage("", "", s"Connection request was successfully sent to ${inviteeID}")
+                val resp = responseMessage("", "", s"Connection request was successfully sent to ${firstname}")
                 complete(HttpResponse(entity = HttpEntity(MediaTypes.`application/json`, resp.toJson.toString)))
               case s: responseMessage =>
                 complete(HttpResponse(status = BadRequest, entity = HttpEntity(MediaTypes.`application/json`, s.toJson.toString)))

@@ -8,6 +8,12 @@ import reactivemongo.bson._
 import scala.concurrent.Future
 import com.mj.users.config.Application._
 import org.joda.time.DateTime
+
+import com.mj.users.model.JsonRepo._
+
+import org.json4s.DefaultFormats
+import spray.json._
+
 object ConnectionDao {
 
   implicit def sessionStatusHandler = Macros.handler[SessionStatus]
@@ -31,6 +37,13 @@ object ConnectionDao {
 
   implicit def userWriter = Macros.handler[DBRegisterDto]
 
+  //implicit def multiConnHandler = Macros.handler[ConnectionMultiple]
+
+  //implicit def multiFriendHandler = Macros.handler[FriendMultiple]
+  
+  
+  
+
   val userCollection: Future[BSONCollection] = db.map(_.collection[BSONCollection]("users"))
 
 
@@ -42,17 +55,16 @@ object ConnectionDao {
 
   def updateInvitationConnections(conn: Connections) = {
 
-
     val result = for {
       userDetails <- getUserDetailsByID(conn.memberID)
-      val inviteeDto = userDetails.get.registerDto.connections.get.find(invite_id => invite_id.memberID.equals(conn.inviteeID))
+      val inviteeDto = userDetails.get.registerDto.connections.get.find(invite_id => invite_id.inviteeID.equals(conn.inviteeID))
       val existingInviteeDto = inviteeDto match {
 
         case Some(existingDto) => existingDto.copy(status = conn.status)
         case None => connectionsDto(conn.inviteeID, conn.conn_type, conn.status)
 
       }
-      val allDto = userDetails.get.registerDto.connections.getOrElse(List()).filter(invite_id => (invite_id.memberID != conn.inviteeID))
+      val allDto = userDetails.get.registerDto.connections.getOrElse(List()).filter(invite_id => (invite_id.inviteeID != conn.inviteeID))
       val connectionDto = allDto :+ existingInviteeDto
       val userDto = userDetails.get.copy(registerDto = userDetails.get.registerDto.copy(connections = Some(connectionDto)))
       response <- updateDetails[DBRegisterDto](userCollection, {
@@ -68,23 +80,35 @@ object ConnectionDao {
     }
   }
 
+
+  def updateInvitationMultiConnections(conn: FriendMultiple) = {
+
+      update(userCollection, {
+      BSONDocument("memberID" -> conn.memberID, "status" -> active)
+      }, {
+        BSONDocument("$set" -> BSONDocument("registerDto.connections" -> conn.connections.toJson.toString
+        ))
+      }).map(resp => resp)
+    
+  }
+
   def updateUserConnections(conn: Connections) = {
 
 
     val result = for {
       userDetails <- getUserDetailsByID(conn.memberID)
-      val inviteeDto = userDetails.get.registerDto.connections.get.find(invite_id => invite_id.memberID.equals(conn.inviteeID))
+      val inviteeDto = userDetails.get.registerDto.connections.get.find(invite_id => invite_id.inviteeID.equals(conn.inviteeID))
       val existingInviteeDto = inviteeDto match {
 
         case Some(existingDto) => existingDto.copy(status = conn.status)
         case None => connectionsDto(conn.inviteeID, conn.conn_type, conn.status)
 
       }
-      val allDto = userDetails.get.registerDto.connections.getOrElse(List()).filter(invite_id => (invite_id.memberID != conn.inviteeID))
+      val allDto = userDetails.get.registerDto.connections.getOrElse(List()).filter(invite_id => (invite_id.inviteeID != conn.inviteeID))
       val connectionDto = allDto :+ existingInviteeDto
       val userDto = userDetails.get.copy(registerDto = userDetails.get.registerDto.copy(connections = Some(connectionDto)))
       response <- updateDetails[DBRegisterDto](userCollection, {
-        BSONDocument("_id" -> conn.memberID, "status" -> active)
+        BSONDocument("_id" -> conn.inviteeID, "status" -> active)
       }, userDto)
 
     } yield (response)
